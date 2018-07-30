@@ -1,7 +1,6 @@
 // @flow
 import { Iterable } from 'immutable'
 import isPromise from 'is-promise'
-import SubmissionError from './SubmissionError'
 import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
 
@@ -35,6 +34,8 @@ const handleSubmit = (
     values,
     persistentSubmitErrors
   } = props
+  const isErrorType = (type, error) => error && error.name === type
+  const isSubmissionError = error => isErrorType('SubmissionError', error)
 
   const handleSuccess = (result: any): any => {
     setSubmitSucceeded()
@@ -45,8 +46,9 @@ const handleSubmit = (
   }
 
   const handleError = (submitError: any): any => {
-    const error =
-      submitError instanceof SubmissionError ? submitError.errors : undefined
+    const error = isSubmissionError(submitError)
+      ? submitError.errors
+      : undefined
     stopSubmit(error)
     setSubmitFailed(...fields)
     if (onSubmitFail) {

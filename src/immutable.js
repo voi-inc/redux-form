@@ -11,6 +11,7 @@ export { default as Form } from './Form'
 export { default as FormName } from './FormName'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
+export { default as SubmissionFailureError } from './SubmissionFailureError'
 // alias for propTypes
 export {
   default as propTypes,
@@ -28,6 +29,7 @@ export { default as FieldArray } from './immutable/FieldArray'
 export { default as formValueSelector } from './immutable/formValueSelector'
 export { default as formValues } from './immutable/formValues'
 export { default as getFormError } from './immutable/getFormError'
+export { default as getFormFailure } from './immutable/getFormFailure'
 export { default as getFormNames } from './immutable/getFormNames'
 export { default as getFormValues } from './immutable/getFormValues'
 export {
@@ -63,6 +65,7 @@ export const arrayUnshift = actions.arrayUnshift
 export const autofill = actions.autofill
 export const blur = actions.blur
 export const change = actions.change
+export const clearFailure = actions.clearFailure
 export const clearSubmitErrors = actions.clearSubmitErrors
 export const clearFields = actions.clearFields
 export const destroy = actions.destroy

@@ -13,6 +13,7 @@ export type ActionTypes = {
   AUTOFILL: string,
   BLUR: string,
   CHANGE: string,
+  CLEAR_FAILURE: string,
   CLEAR_SUBMIT: string,
   CLEAR_SUBMIT_ERRORS: string,
   CLEAR_ASYNC_ERROR: string,

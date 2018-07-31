@@ -20,6 +20,7 @@ import describeArrayUnshift from './helpers/reducer.arrayUnshift'
 import describeAutofill from './helpers/reducer.autofill'
 import describeBlur from './helpers/reducer.blur'
 import describeChange from './helpers/reducer.change'
+import describeClearFailure from './helpers/reducer.clearFailure'
 import describeClearSubmit from './helpers/reducer.clearSubmit'
 import describeClearSubmitErrors from './helpers/reducer.clearSubmitErrors'
 import describeClearAsyncError from './helpers/reducer.clearAsyncError'
@@ -58,6 +59,7 @@ const tests = {
   autofill: describeAutofill,
   blur: describeBlur,
   change: describeChange,
+  clearFailure: describeClearFailure,
   clearSubmit: describeClearSubmit,
   clearSubmitErrors: describeClearSubmitErrors,
   clearAsyncError: describeClearAsyncError,

@@ -24,6 +24,7 @@ import type {
 import type { FormValueSelectorInterface } from './formValueSelector.types'
 import type { FormValuesInterface } from './formValues.types'
 import type { GetFormErrorInterface } from './selectors/getFormError.types'
+import type { GetFormFailureInterface } from './selectors/getFormFailure.types'
 import type { GetFormNamesInterface } from './selectors/getFormNames.types'
 import type { GetFormValuesInterface } from './selectors/getFormValues.types'
 import type { GetFormInitialValuesInterface } from './selectors/getFormInitialValues.types'
@@ -55,6 +56,7 @@ import type {
   Autofill,
   Blur,
   Change,
+  ClearFailure,
   ClearSubmitErrors,
   ClearFields,
   Destroy,
@@ -142,6 +144,10 @@ declare export function getFormError(
   getFormState: ?GetFormState
 ): GetFormErrorInterface<*>
 
+declare export function getFormFailure(
+  getFormState: ?GetFormState
+): GetFormFailureInterface<*>
+
 declare export function getFormNames(
   getFormState: ?GetFormState
 ): GetFormNamesInterface<*>
@@ -226,6 +232,10 @@ declare export class SubmissionError {
   constructor(errors: Object): void;
 }
 
+declare export class SubmissionFailureError {
+  constructor(failure: string): void;
+}
+
 declare export function values(
   config: ValuesConfig
 ): { (React.ComponentType<*>): React.ComponentType<*> }
@@ -244,6 +254,7 @@ declare export var arrayUnshift: ArrayUnshift
 declare export var autofill: Autofill
 declare export var blur: Blur
 declare export var change: Change
+declare export var clearFailure: ClearFailure
 declare export var clearSubmitErrors: ClearSubmitErrors
 declare export var clearFields: ClearFields
 declare export var destroy: Destroy

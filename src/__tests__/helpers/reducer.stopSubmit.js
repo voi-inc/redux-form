@@ -455,6 +455,50 @@ const describeStopSubmit = (reducer, expect, { fromJS }) => () => {
       }
     })
   })
+
+  it('should unset error and set failure on stopSubmit w/ error str', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          doesnt: 'matter',
+          should: 'notchange',
+          error: true
+        }
+      }),
+      stopSubmit('foo', 'failure')
+    )
+    expect(state).toEqualMap({
+      foo: {
+        doesnt: 'matter',
+        should: 'notchange',
+        failure: 'failure',
+        submitFailed: true
+      }
+    })
+  })
+
+  it('should set error and unset failure on stopSubmit w/ errors obj', () => {
+    const state = reducer(
+      fromJS({
+        foo: {
+          doesnt: 'matter',
+          should: 'notchange',
+          failure: 'failure'
+        }
+      }),
+      stopSubmit('foo', {
+        _error: 'global'
+      })
+    )
+    expect(state).toEqualMap({
+      foo: {
+        doesnt: 'matter',
+        should: 'notchange',
+        error: 'global',
+        submitFailed: true
+      }
+    })
+  })
 }
 
 export default describeStopSubmit

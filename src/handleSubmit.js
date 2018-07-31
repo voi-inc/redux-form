@@ -36,6 +36,8 @@ const handleSubmit = (
   } = props
   const isErrorType = (type, error) => error && error.name === type
   const isSubmissionError = error => isErrorType('SubmissionError', error)
+  const isSubmissionFailureError = error =>
+    isErrorType('SubmissionFailureError', error)
 
   const handleSuccess = (result: any): any => {
     setSubmitSucceeded()
@@ -46,9 +48,13 @@ const handleSubmit = (
   }
 
   const handleError = (submitError: any): any => {
-    const error = isSubmissionError(submitError)
-      ? submitError.errors
-      : undefined
+    let error
+    if (isSubmissionError(submitError)) {
+      error = submitError.errors
+    } else if (isSubmissionFailureError(submitError)) {
+      error = submitError.message
+    }
+
     stopSubmit(error)
     setSubmitFailed(...fields)
     if (onSubmitFail) {

@@ -130,6 +130,7 @@ type ArrayPushAction = (field: string, value: any) => void
 type ArrayRemoveAction = (field: string, index: number) => void
 type ArrayRemoveAllAction = (field: string) => void
 type ArraySwapAction = (field: string, indexA: number, indexB: number) => void
+type ClearFailureAction = () => void
 type ClearSubmitAction = () => void
 type DestroyAction = () => void
 type RegisterFieldAction = (name: string, type: FieldType) => void
@@ -140,7 +141,7 @@ type SetSubmitFailedAction = (...fields: string[]) => void
 type SetSubmitSucceededAction = (...fields: string[]) => void
 type StartAsyncValidationAction = (field: string) => void
 type StopAsyncValidationAction = (errors: ?Object) => void
-type StopSubmitAction = (errors: ?Object) => void
+type StopSubmitAction = (errors: ?(Object | string)) => void
 type StartSubmitAction = () => void
 type TouchAction = (...fields: string[]) => void
 type UntouchAction = (...fields: string[]) => void
@@ -216,6 +217,7 @@ export type Props = {
   blur: BlurAction,
   change: ChangeAction,
   children?: React.Node,
+  clearFailure: ClearFailureAction,
   clearSubmit: ClearSubmitAction,
   destroy: DestroyAction,
   destroyOnUnmount: boolean,
@@ -224,6 +226,7 @@ export type Props = {
   dispatch: Dispatch<*>,
   enableReinitialize: boolean,
   error?: any,
+  failure?: string,
   focus: FocusAction,
   form: string,
   getFormState: GetFormState,
@@ -859,6 +862,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             asyncValidating,
             blur,
             change,
+            clearFailure,
             clearSubmit,
             destroy,
             destroyOnUnmount,
@@ -867,6 +871,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             dispatch,
             enableReinitialize,
             error,
+            failure,
             focus,
             form,
             getFormState,
@@ -920,11 +925,13 @@ const createReduxForm = (structure: Structure<*, *>) => {
             asyncValidate: this.asyncValidate,
             asyncValidating,
             ...bindActionCreators({ blur, change }, dispatch),
+            clearFailure,
             clearSubmit,
             destroy,
             dirty,
             dispatch,
             error,
+            failure,
             form,
             handleSubmit: this.submit,
             initialize,
@@ -1022,6 +1029,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
           const submitFailed = !!getIn(formState, 'submitFailed')
           const submitSucceeded = !!getIn(formState, 'submitSucceeded')
           const error = getIn(formState, 'error')
+          const failure = getIn(formState, 'failure')
           const warning = getIn(formState, 'warning')
           const triggerSubmit = getIn(formState, 'triggerSubmit')
           return {
@@ -1030,6 +1038,7 @@ const createReduxForm = (structure: Structure<*, *>) => {
             asyncValidating: getIn(formState, 'asyncValidating') || false,
             dirty: !pristine,
             error,
+            failure,
             initialized,
             invalid: !valid,
             pristine,

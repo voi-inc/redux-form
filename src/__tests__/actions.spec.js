@@ -11,6 +11,7 @@ import {
   ARRAY_UNSHIFT,
   BLUR,
   CHANGE,
+  CLEAR_FAILURE,
   CLEAR_SUBMIT,
   CLEAR_SUBMIT_ERRORS,
   CLEAR_FIELDS,
@@ -50,6 +51,7 @@ const {
   arrayUnshift,
   blur,
   change,
+  clearFailure,
   clearSubmit,
   clearSubmitErrors,
   clearFields,
@@ -366,6 +368,18 @@ describe('actions', () => {
     expect(isFSA(focus('myForm', 'myField'))).toBe(true)
   })
 
+  it('should create clear failure action', () => {
+    expect(clearFailure('myForm')).toEqual({
+      type: CLEAR_FAILURE,
+
+      meta: {
+        form: 'myForm'
+      }
+    })
+
+    expect(isFSA(clearSubmit('myForm'))).toBe(true)
+  })
+
   it('should create clear submit action', () => {
     expect(clearSubmit('myForm')).toEqual({
       type: CLEAR_SUBMIT,
@@ -590,6 +604,18 @@ describe('actions', () => {
     })
 
     expect(isFSA(stopSubmit('myForm', errors))).toBe(true)
+    const failure = 'Unable to make request'
+
+    expect(stopSubmit('myForm', failure)).toEqual({
+      type: STOP_SUBMIT,
+
+      meta: {
+        form: 'myForm'
+      },
+
+      payload: failure,
+      error: true
+    })
   })
 
   it('should create submit action', () => {

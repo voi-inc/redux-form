@@ -2,12 +2,13 @@ import actions from '../../actions'
 const { startSubmit } = actions
 
 const describeStartSubmit = (reducer, expect, { fromJS }) => () => {
-  it('should set submitting on startSubmit', () => {
+  it('should set submitting and delete failure on startSubmit', () => {
     const state = reducer(
       fromJS({
         foo: {
           doesnt: 'matter',
-          should: 'notchange'
+          should: 'notchange',
+          failure: 'failure'
         }
       }),
       startSubmit('foo')

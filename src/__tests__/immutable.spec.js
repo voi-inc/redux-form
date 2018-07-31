@@ -18,6 +18,7 @@ import {
   autofill,
   blur,
   change,
+  clearFailure,
   clearSubmitErrors,
   defaultShouldAsyncValidate,
   defaultShouldValidate,
@@ -63,6 +64,7 @@ import {
   stopSubmit,
   submit,
   SubmissionError,
+  SubmissionFailureError,
   touch,
   unregisterField,
   untouch,
@@ -111,6 +113,9 @@ describe('immutable', () => {
   })
   it('should export change', () => {
     expect(typeof change).toBe('function')
+  })
+  it('should export clearFailure', () => {
+    expect(typeof clearFailure).toBe('function')
   })
   it('should export clearSubmitErrors', () => {
     expect(typeof clearSubmitErrors).toBe('function')
@@ -246,6 +251,9 @@ describe('immutable', () => {
   })
   it('should export SubmissionError', () => {
     expect(typeof SubmissionError).toBe('function')
+  })
+  it('should export SubmissionFailureError', () => {
+    expect(typeof SubmissionFailureError).toBe('function')
   })
   it('should export touch', () => {
     expect(typeof touch).toBe('function')

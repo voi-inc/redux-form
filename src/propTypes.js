@@ -9,6 +9,7 @@ export const formPropTypes = {
   asyncValidating: oneOfType([bool, string]).isRequired, // true if async validation is running, a string if a field triggered async validation
   dirty: bool.isRequired, // true if any values are different from initialValues
   error: any, // form-wide error from '_error' key in validation result
+  failure: string, // form failure from SubmissionFailureError
   form: string.isRequired, // the name of the form
   invalid: bool.isRequired, // true if there are any validation errors
   initialized: bool.isRequired, // true if the form has been initialized
@@ -38,6 +39,7 @@ export const formPropTypes = {
   blur: func.isRequired, // action to mark a field as blurred
   change: func.isRequired, // action to change the value of a field
   clearAsyncError: func.isRequired, // action to clear the async error of a field
+  clearFailure: func.isRequired, // action to clear form failure prop
   clearFields: func.isRequired, // action to clean fields values for all fields
   clearSubmitErrors: func.isRequired, // action to remove submitErrors and error
   destroy: func.isRequired, // action to destroy the form's data in Redux

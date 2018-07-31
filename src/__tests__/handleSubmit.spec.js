@@ -1,5 +1,6 @@
 import handleSubmit from '../handleSubmit'
 import SubmissionError from '../SubmissionError'
+import SubmissionFailureError from '../SubmissionFailureError'
 import { noop } from 'lodash'
 
 describe('handleSubmit', () => {
@@ -331,6 +332,47 @@ describe('handleSubmit', () => {
     })
   })
 
+  it('should set submitFailure if rejected value is a SubmissionFailureError', () => {
+    const values = { foo: 'bar', baz: 42 }
+    const submitFailure = 'Unable to make request'
+    const submit = jest
+      .fn()
+      .mockImplementation(() =>
+        Promise.reject(new SubmissionFailureError(submitFailure))
+      )
+    const dispatch = noop
+    const startSubmit = jest.fn()
+    const stopSubmit = jest.fn()
+    const touch = jest.fn()
+    const setSubmitFailed = jest.fn()
+    const setSubmitSucceeded = jest.fn()
+    const asyncValidate = jest.fn().mockImplementation(() => Promise.resolve())
+    const props = {
+      dispatch,
+      startSubmit,
+      stopSubmit,
+      touch,
+      setSubmitFailed,
+      setSubmitSucceeded,
+      values
+    }
+
+    const resolveSpy = jest.fn()
+
+    return handleSubmit(submit, props, true, asyncValidate, ['foo', 'baz'])
+      .then(resolveSpy)
+      .then(() => {
+        expect(resolveSpy).toHaveBeenCalledWith(submitFailure)
+        expect(asyncValidate).toHaveBeenCalledWith()
+        expect(submit).toHaveBeenCalledWith(values, dispatch, props)
+        expect(startSubmit).toHaveBeenCalled()
+        expect(stopSubmit).toHaveBeenCalledWith(submitFailure)
+        expect(touch).toHaveBeenCalledWith('foo', 'baz')
+        expect(setSubmitFailed).toHaveBeenCalled()
+        expect(setSubmitSucceeded).not.toHaveBeenCalled()
+      })
+  })
+
   it('should not set errors if rejected value not a SubmissionError', () => {
     const values = { foo: 'bar', baz: 42 }
     const submitErrors = { foo: 'submit error' }
@@ -365,7 +407,7 @@ describe('handleSubmit', () => {
         expect(asyncValidate).toHaveBeenCalledWith()
         expect(submit).toHaveBeenCalledWith(values, dispatch, props)
         expect(startSubmit).toHaveBeenCalled()
-        expect(stopSubmit).toHaveBeenCalledWith(undefined) // not wrapped in SubmissionError
+        expect(stopSubmit).toHaveBeenCalledWith(undefined) // not wrapped in a redux-form Error
         expect(touch).toHaveBeenCalledWith('foo', 'baz')
         expect(setSubmitFailed).toHaveBeenCalled()
         expect(setSubmitSucceeded).not.toHaveBeenCalled()

@@ -1,4 +1,5 @@
 // @flow
+import { isObject } from 'lodash'
 import {
   ARRAY_INSERT,
   ARRAY_MOVE,
@@ -13,6 +14,7 @@ import {
   AUTOFILL,
   BLUR,
   CHANGE,
+  CLEAR_FAILURE,
   CLEAR_SUBMIT,
   CLEAR_SUBMIT_ERRORS,
   CLEAR_ASYNC_ERROR,
@@ -64,6 +66,8 @@ import type {
   Blur,
   ChangeAction,
   Change,
+  ClearFailureAction,
+  ClearFailure,
   ClearSubmitAction,
   ClearSubmit,
   ClearSubmitErrorsAction,
@@ -246,6 +250,11 @@ const change: Change = (
   payload: value
 })
 
+const clearFailure: ClearFailure = (form: string): ClearFailureAction => ({
+  type: CLEAR_FAILURE,
+  meta: { form }
+})
+
 const clearSubmit: ClearSubmit = (form: string): ClearSubmitAction => ({
   type: CLEAR_SUBMIT,
   meta: { form }
@@ -351,12 +360,12 @@ const stopAsyncValidation: StopAsyncValidation = (
 
 const stopSubmit: StopSubmit = (
   form: string,
-  errors: ?Object
+  errors: ?(Object | string)
 ): StopSubmitAction => ({
   type: STOP_SUBMIT,
   meta: { form },
   payload: errors,
-  error: !!(errors && Object.keys(errors).length)
+  error: !!(errors || Object.keys(errors || {}).length)
 })
 
 const submit: Submit = (form: string): SubmitAction => ({
@@ -440,6 +449,7 @@ const actions = {
   blur,
   change,
   clearFields,
+  clearFailure,
   clearSubmit,
   clearSubmitErrors,
   clearAsyncError,

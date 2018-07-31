@@ -117,6 +117,11 @@ export type Change = {
     persistentSubmitErrors?: boolean
   ): ChangeAction
 }
+export type ClearFailureAction = {
+  type: string,
+  meta: { form: string }
+} & Action
+export type ClearFailure = { (form: string): ClearFailureAction }
 export type ClearSubmitAction = {
   type: string,
   meta: { form: string }
@@ -217,10 +222,10 @@ export type StopAsyncValidation = {
 export type StopSubmitAction = {
   type: string,
   meta: { form: string },
-  payload: ?Object,
+  payload: ?(Object | string),
   error: boolean
 } & Action
-export type StopSubmit = { (form: string, errors: ?Object): StopSubmitAction }
+export type StopSubmit = { (form: string, errors: ?(Object | string)): StopSubmitAction }
 export type SubmitAction = { type: string, meta: { form: string } } & Action
 export type Submit = { (form: string): SubmitAction }
 export type SetSubmitFailedAction = {

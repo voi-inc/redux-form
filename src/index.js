@@ -11,6 +11,7 @@ export { default as Form } from './Form'
 export { default as FormName } from './FormName'
 export { default as FormSection } from './FormSection'
 export { default as SubmissionError } from './SubmissionError'
+export { default as SubmissionFailureError } from './SubmissionFailureError'
 // alias for propTypes
 export {
   default as propTypes,
@@ -28,6 +29,7 @@ export { default as FieldArray } from './FieldArray'
 export { default as formValueSelector } from './formValueSelector'
 export { default as formValues } from './formValues'
 export { default as getFormError } from './getFormError'
+export { default as getFormFailure } from './getFormFailure'
 export { default as getFormNames } from './getFormNames'
 export { default as getFormValues } from './getFormValues'
 export { default as getFormInitialValues } from './getFormInitialValues'
@@ -62,6 +64,7 @@ export const autofill = actions.autofill
 export const blur = actions.blur
 export const change = actions.change
 export const clearAsyncError = actions.clearAsyncError
+export const clearFailure = actions.clearFailure
 export const clearFields = actions.clearFields
 export const clearSubmitErrors = actions.clearSubmitErrors
 export const destroy = actions.destroy

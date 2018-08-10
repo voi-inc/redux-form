@@ -2,6 +2,8 @@
 import isPromise from 'is-promise'
 import type { Dispatch } from 'redux'
 import type { Props } from './createReduxForm'
+import SubmissionError from './SubmissionError'
+import SubmissionFailureError from './SubmissionFailureError'
 
 type SubmitFunction = {
   (values: any, dispatch: Dispatch<*>, props: Object): any
@@ -28,10 +30,6 @@ const handleSubmit = (
     values,
     persistentSubmitErrors
   } = props
-  const isErrorType = (type, error) => error && error.name === type
-  const isSubmissionError = error => isErrorType('SubmissionError', error)
-  const isSubmissionFailureError = error =>
-    isErrorType('SubmissionFailureError', error)
 
   const handleSuccess = (result: any): any => {
     setSubmitSucceeded()
@@ -43,9 +41,9 @@ const handleSubmit = (
 
   const handleError = (submitError: any): any => {
     let error
-    if (isSubmissionError(submitError)) {
+    if (submitError instanceof SubmissionError) {
       error = submitError.errors
-    } else if (isSubmissionFailureError(submitError)) {
+    } else if (submitError instanceof SubmissionFailureError) {
       error = submitError.message
     }
 
